@@ -5,22 +5,44 @@ import axios from 'axios'
 const ws = require('ws')
 
 const App = () => {
+    // image name price volume pricechange marketcap 
+    // const [image,setImage] = useState('')
+    // const [name,setName] = useState('')
+    // const [price,setPrice] = useState()
+    // const [volume,setVolume] = useState()
+
+    const [data, setData] = useState()
+    const [search,setSearch] = useState('')
     
     const ws = useRef(null);
 
     // let first = useRef(false);
      const url = "https://api.pro.coinbase.com/products";
-
+     let pairs = []
      async function fetchData() {
-         try {
-             const result = axios.get(url)
-             console.log(result)
-         } catch (err) {
+         
+             axios.get(url)
+             .then( (res) => {
+                 setData(res.data)
+                 console.log(res.data)
+                })
+              
+              .catch(error => console.log(error));
+   
 
-            console.log(err)
-         }
+            
+         
          
      }
+// Search Input 
+     const handleChange = e => {
+        setSearch(e.target.value);
+      };
+// filter coins func
+    //   const filteredCoins = data.filter(coin =>
+    //     coin.name.toLowerCase().includes(search.toLowerCase())
+    //   );
+
      useEffect(() => {
          ws.current = new WebSocket("wss://ws-feed.exchange.coinbase.com")
          fetchData()
@@ -49,4 +71,6 @@ export default App
 
 
 // State vars and pull data useEffect
-// websocket then grab all products filtered array
+// websocket then grab all currencies and then filter data for Top currencies
+//
+//
