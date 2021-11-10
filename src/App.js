@@ -10,22 +10,26 @@ const App = () => {
     // const [name,setName] = useState('')
     // const [price,setPrice] = useState()
     // const [volume,setVolume] = useState()
-
+    let pairs = []
     const [data, setData] = useState()
     const [search,setSearch] = useState('')
     
     const ws = useRef(null);
+    let first = useRef(false);
 
     // let first = useRef(false);
      const url = "https://api.pro.coinbase.com/products";
-     let pairs = []
+     
      async function fetchData() {
          
              axios.get(url)
              .then( (res) => {
-                 setData(res.data)
-                 console.log(res.data)
+                 pairs = res.data
+                 console.log(pairs.filter((pair) => {
+                     return pair.quote_currency === "USD"
+                 }))
                 })
+            
               
               .catch(error => console.log(error));
    
@@ -34,22 +38,25 @@ const App = () => {
          
          
      }
+ 
 // Search Input 
      const handleChange = e => {
         setSearch(e.target.value);
       };
 // filter coins func
-    //   const filteredCoins = data.filter(coin =>
-    //     coin.name.toLowerCase().includes(search.toLowerCase())
-    //   );
+   
+    
 
      useEffect(() => {
          ws.current = new WebSocket("wss://ws-feed.exchange.coinbase.com")
          fetchData()
      },[])
-  
-   
-
+ 
+      let filteredCoins = pairs.filter(pair => {
+          return pair.quote_currency === "USD";
+        }
+    );
+console.log(filteredCoins)
     return (
         <>
         <div className="search">
@@ -57,14 +64,28 @@ const App = () => {
             
                 <form className="Header">
             
-                <input className="input" type="text"  placeholder="Search a Cryptocurrency..."/>
+                <input onChange={handleChange} className="input" type="text"  placeholder="Search a Cryptocurrency..."/>
                 <button className="btn">Search</button>
                 </form>
         </div>
-        <Crypto />
+        <div>
+        {/* {data.map(coin => {
+        return (
+          <Crypto
+            key={coin.id}
+            name={coin.name}
+            price={coin.current_price}
+            symbol={coin.symbol}
+            marketcap={coin.total_volume}
+            volume={coin.market_cap}
+            image={coin.image}
+            priceChange={coin.price_change_percentage_24h}
+          />
+        ); */
+      }
+    </div>
         </>
     )
-
     }
 export default App
 
