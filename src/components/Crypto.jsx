@@ -1,25 +1,26 @@
 import React from 'react'
 
-const Crypto = (props) => {
+const Crypto = ({name, price, symbol, marketcap, volume, image, priceChange}) => {
     return (
         <div className="coin-container">
             <div className="coin-row">
                 <div className="coin">
-                    <img src={props.image} alt="crpto" className="image" />
-                    <h1>BTC{props.name}</h1>
+                    <img src={image} alt="crpto" className="image" />
+                    <h1>BTC{name}</h1>
+                    <p className='coin-symbol'>{symbol}</p>
                 </div>
                 <div className="coin-data">
-                <p className='coin-price'>$34{props.price}</p>
-                <p className='coin-volume'>$323232{props.volume}</p>
+                <p className='coin-price'>$34{price}</p>
+                <p className='coin-volume'>$323232{volume}</p>
 
-          {props.priceChange < 0 ? (
-            <p className='coin-percent red'>{props.priceChange}%</p>
+          {priceChange < 0 ? (
+            <p className='coin-percent red'>{priceChange}%</p>
           ) : (
-            <p className='coin-percent green'>{props.priceChange}%</p>
+            <p className='coin-percent green'>{priceChange}%</p>
           )}
 
           <p className='coin-marketcap'>
-            Mkt Cap: ${props.marketcap}
+            Mkt Cap: ${marketcap}
           </p>
                 </div>
             </div>

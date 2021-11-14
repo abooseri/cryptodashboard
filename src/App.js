@@ -25,18 +25,10 @@ const App = () => {
              axios.get(url)
              .then( (res) => {
                  pairs = res.data
-                 console.log(pairs.filter((pair) => {
-                     return pair.quote_currency === "USD"
-                 }))
+                 setData(pairs)
+                 console.log(pairs)
                 })
-            
-              
-              .catch(error => console.log(error));
-   
-
-            
-         
-         
+              .catch(error => console.log(error))       
      }
  
 // Search Input 
@@ -44,19 +36,18 @@ const App = () => {
         setSearch(e.target.value);
       };
 // filter coins func
-   
-    
+    const filteredCoins = pairs.filter(coin =>
+    pairs.name.toLowerCase().includes(search.toLowerCase())
+  );
+   let filtered = []
 
      useEffect(() => {
          ws.current = new WebSocket("wss://ws-feed.exchange.coinbase.com")
          fetchData()
      },[])
  
-      let filteredCoins = pairs.filter(pair => {
-          return pair.quote_currency === "USD";
-        }
-    );
-console.log(filteredCoins)
+      
+console.log(filtered)
     return (
         <>
         <div className="search">
@@ -64,25 +55,23 @@ console.log(filteredCoins)
             
                 <form className="Header">
             
-                <input onChange={handleChange} className="input" type="text"  placeholder="Search a Cryptocurrency..."/>
-                <button className="btn">Search</button>
+                <input  className="input" type="text"  placeholder="Search a Cryptocurrency..."/>
+                <button onClick={handleChange} className="btn">Search</button>
                 </form>
         </div>
         <div>
-        {/* {data.map(coin => {
+        {pairs.map((pair, idx )=> {
         return (
           <Crypto
-            key={coin.id}
-            name={coin.name}
-            price={coin.current_price}
-            symbol={coin.symbol}
-            marketcap={coin.total_volume}
-            volume={coin.market_cap}
-            image={coin.image}
-            priceChange={coin.price_change_percentage_24h}
+            key={idx}
+            name={pair.display_name}
+            price={pair.id}
+          
           />
-        ); */
-      }
+        );
+      })}
+
+        
     </div>
         </>
     )
