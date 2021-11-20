@@ -6,21 +6,21 @@ const Crypto = ({name, price, symbol, marketcap, volume, image, priceChange}) =>
             <div className="coin-row">
                 <div className="coin">
                     <img src={image} alt="crpto" className="image" />
-                    <h1>BTC{name}</h1>
+                    <h1>{name}</h1>
                     <p className='coin-symbol'>{symbol}</p>
                 </div>
                 <div className="coin-data">
-                <p className='coin-price'>$34{price}</p>
-                <p className='coin-volume'>$323232{volume}</p>
+                <p className='coin-price'>${price}</p>
+                <p className='coin-volume'>${volume.toLocaleString()}</p>
 
           {priceChange < 0 ? (
-            <p className='coin-percent red'>{priceChange}%</p>
+            <p className='coin-percent red'>{priceChange.toFixed(2)}%</p>
           ) : (
-            <p className='coin-percent green'>{priceChange}%</p>
+            <p className='coin-percent green'>{priceChange.toFixed(2)}%</p>
           )}
 
           <p className='coin-marketcap'>
-            Mkt Cap: ${marketcap}
+            Mkt Cap: ${marketcap.toLocaleString()}
           </p>
                 </div>
             </div>
